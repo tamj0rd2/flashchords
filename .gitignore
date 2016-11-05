@@ -1,0 +1,7 @@
+*.pyc
+node_modules/
+assets/bundles/
+webpack-stats-local.json
+staticfiles/
+assets/dist/
+webpack-stats-prod.json
