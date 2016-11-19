@@ -1,8 +1,16 @@
 var React = require('react')
-require('bootstrap-webpack')
+var Settings = require('./components/settings')
+var Card = require('./components/card')
 
-module.exports = React.createClass({
-  render: function () {
-    return <h1>Hello, world.</h1>
+var App = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <Settings />
+        <Card />
+      </div>
+    )
   }
 })
+
+module.exports = App
