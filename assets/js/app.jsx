@@ -5,7 +5,7 @@ var Card = require('./components/card')
 var App = React.createClass({
   render: function() {
     return (
-      <div>
+      <div className="container">
         <Settings />
         <Card />
       </div>
