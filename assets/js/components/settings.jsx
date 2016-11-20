@@ -36,6 +36,18 @@ var ChordGroup = React.createClass({
   }
 })
 
+var ModeSelector = React.createClass({
+  render: function () {
+    return (
+      <div className="mode-select">
+        <button className="btn btn-default">Change Mode</button>
+        <p>Mode Name</p>
+        <p>00:00</p>
+      </div>
+    )
+  }
+})
+
 var Settings = React.createClass({
   render: function () {
     var stdChords = ['maj', 'min', 'dim', 'aug']
@@ -44,11 +56,7 @@ var Settings = React.createClass({
       <div className="settings">
         <ChordGroup class="std-chords" options={stdChords}/>
         <ChordGroup class="7th-chords" options={svnChords}/>
-        <div className="mode-select">
-          <button className="btn btn-default">Change Mode</button>
-          <p>Mode Name</p>
-          <p>00:00</p>
-        </div>
+        <ModeSelector/>
       </div>
     )
   }
