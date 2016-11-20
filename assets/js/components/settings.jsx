@@ -30,7 +30,9 @@ var ChordGroup = React.createClass({
   render: function () {
     return (
       <div className={this.props.class}>
-        {this.props.options.map(opt => <ChordCheckbox option={opt} key={opt}/>)}
+        {this.props.options.map((chord, index) =>
+          <ChordCheckbox option={chord} key={index}/>
+        )}
       </div>
     )
   }
