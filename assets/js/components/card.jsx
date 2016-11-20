@@ -2,14 +2,29 @@ var React = require('react')
 
 
 var Question = React.createClass({
+  getInitialState: function () {
+    return {
+      chord: 'C',
+    }
+  },
   render: function () {
-    return <div>Question</div>
+    return (
+      <div>{this.state.chord}</div>
+    )
   }
 })
 
 var Answer = React.createClass({
+  getInitialState: function () {
+    return {
+      text: 'Flip',
+      answer: 'C, E, G',
+    }
+  },
   render: function () {
-    return <div>Answer</div>
+    return (
+      <div>{this.state.text}</div>
+    )
   }
 })
 
