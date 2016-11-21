@@ -8,15 +8,19 @@ var ChordCheckbox = React.createClass({
   render: function () {
     if (/^[0-9]+$/.test(this.props.option)) {
       return (
-        <label className="checkbox">
-          <input type="checkbox"/> {this.props.option}<sup>th</sup>
-        </label>
+        <div className="col-xs-3">
+          <label className="checkbox-inline">
+            <input type="checkbox"/> {this.props.option}<sup>th</sup>
+          </label>
+        </div>
       )
     } else {
       return (
-        <label className="checkbox">
-          <input type="checkbox"/> {this.props.option}
-        </label>
+        <div className="col-xs-3">
+          <label className="checkbox-inline">
+            <input type="checkbox"/> {this.props.option}
+          </label>
+        </div>
       )
     }
   }
@@ -29,7 +33,7 @@ var ChordGroup = React.createClass({
   },
   render: function () {
     return (
-      <div className={this.props.class}>
+      <div className={'row ' + this.props.class}>
         {this.props.options.map((chord, index) =>
           <ChordCheckbox option={chord} key={index}/>
         )}
