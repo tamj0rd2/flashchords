@@ -38,6 +38,10 @@ module.exports = {
         loader: 'style-loader!css-loader'
       },
       {
+        test: /\.scss$/,
+        loader: 'style-loader!css-loader!sass-loader'
+      },
+      {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'file'
       },

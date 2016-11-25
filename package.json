@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "hot-reload": "node webpack/server.js",
-    "build-local": "webpack --config webpack/local.config.js --progress --colors",
+    "build-local": "webpack --config webpack/local.config.js --progress --colors --display-error-details",
     "build-prod": "webpack --config webpack/prod.config.js --progress --colors",
     "postinstall": "webpack --config webpack/prod.config.js --progress --colors",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -32,8 +32,10 @@
     "jquery": "^3.1.1",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "node-sass": "^3.13.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",
