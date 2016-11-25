@@ -1,6 +1,15 @@
 var React = require('react')
 
 
+var SimpleLI = React.createClass({
+  propTypes: {
+    text: React.PropTypes.string.isRequired,
+  },
+  render: function () {
+    return <li className="list-group-item">{this.props.text}</li>
+  }
+})
+
 var Question = React.createClass({
   getInitialState: function () {
     return {
@@ -9,7 +18,7 @@ var Question = React.createClass({
   },
   render: function () {
     return (
-      <div>{this.state.chord}</div>
+      <SimpleLI text={this.state.chord}/>
     )
   }
 })
@@ -23,7 +32,7 @@ var Answer = React.createClass({
   },
   render: function () {
     return (
-      <div>{this.state.text}</div>
+      <SimpleLI text={this.state.text}/>
     )
   }
 })
@@ -31,10 +40,10 @@ var Answer = React.createClass({
 var Card = React.createClass({
   render: function() {
     return (
-      <div className="Card">
+      <ul className="list-group">
         <Question />
         <Answer />
-      </div>
+      </ul>
     )
   }
 })
