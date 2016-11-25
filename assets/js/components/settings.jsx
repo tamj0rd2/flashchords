@@ -46,9 +46,14 @@ var ModeSelector = React.createClass({
   render: function () {
     return (
       <div className="mode-select">
-        <button className="btn btn-default">Change Mode</button>
-        <p>Mode Name</p>
-        <p>00:00</p>
+        <div className="input-group">
+          <span className="input-group-btn">
+            <button className="btn btn-primary">Change Mode</button>
+          </span>
+          <input type="text" className="form-control text-center"
+                 defaultValue="Mode Name" disabled/>
+        </div>
+        <div><strong>00:00</strong></div>
       </div>
     )
   }
