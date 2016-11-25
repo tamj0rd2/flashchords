@@ -6,8 +6,10 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="container">
-        <Settings />
-        <Card />
+        <div className="row">
+          <div className="col-xs-6"><Settings /></div>
+          <div className="col-xs-6"><Card /></div>
+        </div>
       </div>
     )
   }
