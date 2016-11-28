@@ -49,27 +49,41 @@ var ModeSelector = React.createClass({
   getInitialState: function () {
     return {
       modeIndex: 0,
-      mode: this.props.modes[0]
+      mode: this.props.modes[0],
+      timerClass: 'hidden',
     }
+  },
+  onBtnClick: function () {
+    let mode = this.setMode()
+    this.setTimerClass(mode)
   },
   setMode: function () {
     let newModeIndex = (this.state.modeIndex + 1) % this.props.modes.length
+    let newMode = this.props.modes[newModeIndex]
     this.setState({modeIndex: newModeIndex})
-    this.setState({mode: this.props.modes[newModeIndex]})
+    this.setState({mode: newMode})
+    return newMode
+  },
+  setTimerClass: function (mode) {
+    if (mode === 'Timed') {
+      this.setState({timerClass: ''})
+    } else {
+      this.setState({timerClass: 'hidden'})
+    }
   },
   render: function () {
     return (
       <div className="mode-select">
         <div className="input-group">
           <span className="input-group-btn">
-            <button className="btn btn-primary" onClick={this.setMode}>
+            <button className="btn btn-primary" onClick={this.onBtnClick}>
               Change Mode
             </button>
           </span>
           <input disabled type="text" className="form-control text-center"
                  value={this.state.mode + ' Mode'}/>
         </div>
-        <div><strong>00:00</strong></div>
+        <div className={this.state.timerClass}><strong>00:00</strong></div>
       </div>
     )
   }
