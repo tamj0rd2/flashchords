@@ -24,6 +24,12 @@ module.exports = {
   ],
 
   module: {
+    preLoaders: [
+      {
+        test: /\.json$/,
+        loader: 'json-loader'
+      },
+    ],
     loaders: [
       {
         test: /\.jsx?$/,

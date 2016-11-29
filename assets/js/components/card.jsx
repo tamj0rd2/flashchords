@@ -1,4 +1,5 @@
 var React = require('react')
+var QA = require('../scripts/qa.jsx')
 require('../../css/card.scss')
 
 
@@ -41,15 +42,16 @@ var Answer = React.createClass({
     this.setState({'clickCount': clickCount + 1})
   },
   showAnswer: function () {
-    this.setState({'text': 'C, E, G'})
+    this.setState({'text': QA.getAnswer('C').join(', ')})
   },
   showFlip: function() {
     this.setState({'text': 'Flip'})
   },
   render: function () {
     return (
-      <li className="list-group-item noSelect" unselectable="on"
-          onClick={this.onClick}>{this.state.text}</li>
+      <li className="list-group-item noSelect" onClick={this.onClick}>
+        {this.state.text}
+      </li>
     )
   }
 })

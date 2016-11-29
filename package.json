@@ -8,7 +8,7 @@
     "build-local": "webpack --config webpack/local.config.js --progress --colors --display-error-details",
     "build-prod": "webpack --config webpack/prod.config.js --progress --colors",
     "postinstall": "webpack --config webpack/prod.config.js --progress --colors",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-node assets/js/tests/ --autotest --color --watch assets/js/scripts/qa.jsx"
   },
   "author": "tamj0rd2",
   "license": "",
@@ -30,6 +30,7 @@
     "file-loader": "^0.9.0",
     "imports-loader": "^0.6.5",
     "jquery": "^3.1.1",
+    "json-loader": "^0.5.4",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "node-sass": "^3.13.0",
@@ -37,6 +38,7 @@
     "react-dom": "^15.3.2",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
+    "tonal": "^0.68.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",
     "webpack-bundle-tracker": "0.0.93"
