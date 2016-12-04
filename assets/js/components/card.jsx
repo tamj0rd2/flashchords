@@ -3,65 +3,29 @@ var QA = require('../scripts/qa.jsx')
 require('../../css/card.scss')
 
 
-var SimpleLI = React.createClass({
-  propTypes: {
-    text: React.PropTypes.string.isRequired,
-  },
-  render: function () {
-    return <li className="list-group-item">{this.props.text}</li>
-  }
-})
-
-var Question = React.createClass({
-  getInitialState: function () {
-    return {
-      chord: 'C',
-    }
-  },
-  render: function () {
-    return (
-      <SimpleLI text={this.state.chord}/>
-    )
-  }
-})
-
-var Answer = React.createClass({
-  getInitialState: function () {
-    return {
-      text: 'Flip',
-      clickCount: 0,
-    }
-  },
-  onClick: function () {
-    let clickCount = this.state.clickCount % 2
-    if (clickCount === 0) {
-      this.showAnswer()
-    } else {
-      this.showFlip()
-    }
-    this.setState({'clickCount': clickCount + 1})
-  },
-  showAnswer: function () {
-    this.setState({'text': QA.getAnswer('C').join(', ')})
-  },
-  showFlip: function() {
-    this.setState({'text': 'Flip'})
-  },
-  render: function () {
-    return (
-      <li className="list-group-item noSelect" onClick={this.onClick}>
-        {this.state.text}
-      </li>
-    )
-  }
-})
-
 var Card = React.createClass({
-  render: function() {
+  getInitialState: function () {
+    return {
+      question: QA.newQuestion(),
+      text: 'Flip',
+    }
+  },
+  questionClick: function () {
+    this.setState({question: QA.newQuestion()})
+    this.setState({text: 'Flip'})
+  },
+  answerClick: function () {
+    this.setState({text: this.state.question.answer.join(', ')})
+  },
+  render: function () {
     return (
-      <ul className="list-group">
-        <Question />
-        <Answer />
+      <ul className="list-group" onClick={this.onClick}>
+        <li className="list-group-item no-select" onClick={this.questionClick}>
+          <strong>{this.state.question.tonic}</strong>{this.state.question.type}
+        </li>
+        <li className="list-group-item no-select" onClick={this.answerClick}>
+          {this.state.text}
+        </li>
       </ul>
     )
   }
