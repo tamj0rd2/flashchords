@@ -14,10 +14,6 @@ function midiToNote(note) {
   return tonal.note.pc(tonal.note.fromMidi(note))
 }
 
-function getAnswer(type, tonic) {
-  return tonal.chord.get(type, tonic)
-}
-
 function randRoot() {
   return midiToNote(randRootGen())
 }
@@ -28,13 +24,12 @@ function newQuestion() {
   return {
     tonic: tonic,
     type: type,
-    answer: getAnswer(type, tonic)
+    answer: tonal.chord.get(type, tonic)
   }
 }
 
 module.exports = {
   roots: roots,
-  getAnswer: getAnswer,
   newQuestion: newQuestion,
   randRoot: randRoot,
   randChordName: randChordName,

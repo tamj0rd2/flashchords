@@ -1,27 +1,22 @@
 var QA = require('../scripts/qa.jsx')
 var tonal = require('tonal')
 
+var helpers = {
+  isUnique: function (getVal) {
+    var lastVal, newVal
+    for(var i = 0; i < 50; i++) {
+      newVal = getVal()
+      if (lastVal === newVal) {
+        expect(lastVal).not.toEqual(newVal)
+        return false
+      }
+      lastVal = newVal
+    }
+    return true
+  },
+}
+
 describe('QA', function () {
-
-  describe('getAnswer', function () {
-    it('should return an array of notes when given a chord name', function () {
-      var question, expected, answer
-      question = {type: 'm', tonic: 'C'}
-      expected = ['C', 'Eb', 'G']
-      answer = QA.getAnswer(question.type, question.tonic)
-      expect(answer).toEqual(expected)
-
-      question = {type: '', tonic: 'A'}
-      expected = ['A', 'C#', 'E']
-      answer = QA.getAnswer(question.type, question.tonic)
-      expect(answer).toEqual(expected)
-
-      question = {type: '11b9', tonic: 'D'}
-      expected = ['D', 'A', 'C', 'Eb', 'G']
-      answer = QA.getAnswer(question.type, question.tonic)
-      expect(answer).toEqual(expected)
-    })
-  })
 
   describe('midiToNote', function () {
     it('should convert a midi value to a note', function () {
@@ -47,15 +42,7 @@ describe('QA', function () {
       expect(QA.roots).toContain(root)
     })
     it('should not return the same root twice in a row', function () {
-      var lastRoot, newRoot
-      for(var i = 0; i < 50; i++) {
-        newRoot = QA.randRoot()
-        if (lastRoot === newRoot) {
-          expect(lastRoot).not.toEqual(newRoot)
-          break
-        }
-        lastRoot = newRoot
-      }
+      helpers.isUnique(QA.randRoot)
     })
   })
 
@@ -65,30 +52,18 @@ describe('QA', function () {
       expect(tonal.chord.names()).toContain(chordName)
     })
     it('should not return the same name twice in a row', function () {
-      var lastChord, newChord
-      for(var i = 0; i < 50; i++) {
-        newChord = QA.randChordName()
-        if (lastChord === newChord) {
-          expect(lastChord).not.toEqual(newChord)
-          break
-        }
-        lastChord = newChord
-      }
+      helpers.isUnique(QA.randChordName)
     })
   })
 
   describe('newQuestion', function () {
-    it('should return an array with a type, tonic and answer', function () {
-      var question = QA.newQuestion()
-      expect(QA.roots).toContain(question.tonic)
-      expect(QA.chordNames).toContain(question.type)
-      expect(question.answer).not.toEqual('')
+    it('should return a dict with a type, tonic and answer', function () {
+      var result = QA.newQuestion()
+      expect(typeof(result)).toBe('object')
+      expect(QA.roots).toContain(result.tonic)
+      expect(QA.chordNames).toContain(result.type)
+      expect(result.answer).not.toEqual('')
     })
-    it('should return a dict', function () {
-      var output = QA.newQuestion()
-      expect(typeof(output)).toBe('object')
-    })
-
     it('should only return chords that have answers', function () {
       var result
       for(var i = 0; i < 100; i++) {
