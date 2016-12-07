@@ -6,8 +6,10 @@ var tonal = require('tonal')
 
 const roots = R.range(60, 72).map(note => midiToNote(note))
 const randRootGen = rand(60, 71)
-const chordNames = tonal.chord.names()
-const randChordName = randArr(chordNames)
+const chords = {
+  all: tonal.chord.names(),
+}
+const randChordName = randArr(chords.all)
 
 
 function midiToNote(note) {
@@ -34,5 +36,5 @@ module.exports = {
   randRoot: randRoot,
   randChordName: randChordName,
   midiToNote: midiToNote,
-  chordNames: chordNames,
+  chords: chords,
 }

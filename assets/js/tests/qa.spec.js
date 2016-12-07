@@ -61,7 +61,7 @@ describe('QA', function () {
       var result = QA.newQuestion()
       expect(typeof(result)).toBe('object')
       expect(QA.roots).toContain(result.tonic)
-      expect(QA.chordNames).toContain(result.type)
+      expect(QA.chords.all).toContain(result.type)
       expect(result.answer).not.toEqual('')
     })
     it('should only return chords that have answers', function () {
