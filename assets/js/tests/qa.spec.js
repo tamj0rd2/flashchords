@@ -2,6 +2,7 @@ var QA = require('../scripts/qa.jsx')
 var tonal = require('tonal')
 
 var helpers = {
+  // returns true if each generated value is different from the last
   isUnique: function (getVal) {
     var lastVal, newVal
     for(var i = 0; i < 50; i++) {
@@ -25,8 +26,8 @@ describe('QA', function () {
     })
   })
 
-  describe('roots', function () {
-    var roots = QA.roots
+  describe('ROOTS', function () {
+    var roots = QA.ROOTS
     it('should start at C and end at B', function () {
       expect(roots[0]).toBe('C')
       expect(roots[roots.length - 1]).toBe('B')
@@ -39,11 +40,23 @@ describe('QA', function () {
   describe('randRoot', function () {
     it('should return a root note', function () {
       var root = QA.randRoot()
-      expect(QA.roots).toContain(root)
+      expect(QA.ROOTS).toContain(root)
     })
     it('should not return the same root twice in a row', function () {
       helpers.isUnique(QA.randRoot)
     })
+  })
+
+  describe('filterChords', function () {
+    it('should take an array of regexes and return a filtered list of chords',
+      function () {
+        var result = QA.filterChords([/^m$/, /^M$/], QA.CHORD_GROUPS.all)
+        expect(result).toContain('m')
+        expect(result).toContain('M')
+        expect(result).not.toContain('M13')
+        expect(result).not.toContain('m7')
+      }
+    )
   })
 
   describe('randChordName', function () {
@@ -60,8 +73,8 @@ describe('QA', function () {
     it('should return a dict with a type, tonic and answer', function () {
       var result = QA.newQuestion()
       expect(typeof(result)).toBe('object')
-      expect(QA.roots).toContain(result.tonic)
-      expect(QA.chords.all).toContain(result.type)
+      expect(QA.ROOTS).toContain(result.tonic)
+      expect(QA.CHORD_GROUPS.all).toContain(result.type)
       expect(result.answer).not.toEqual('')
     })
     it('should only return chords that have answers', function () {
