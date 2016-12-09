@@ -14,36 +14,61 @@ const CHORD_GROUPS = new function () {
   this.all = ALL_CHORDS
 
   // Major and minor chords
-  this.group1 = filterChords([])
+  var group1Reg = [/^M$/, /^m$/]
+  this.group1 = filterChords(group1Reg)
+  var exclude = this.group1
 
   // Diminished, augmented, sustained (sus2, sus4, sus24), added
-  this.group2 = filterChords([])
+  var group2Reg = [
+    /^o$/,
+    /^M#5$/,
+    /^sus24|Msus\d$/,
+    /^(?:(?!7).)*add(?:#|b)*\d*$/,
+  ]
+  this.group2 = R.without(exclude, filterChords(group2Reg))
+  exclude = exclude.concat(this.group2)
+
+  // Other easy chords with 4/5/6s
+  var group3Reg = [
+    /^(?:m|M)?(?:(?!7|9|11|13)\d)+$/,
+    /^(?:m|M)(?:b|#)\d$/
+  ]
+  this.group3 = R.without(exclude, filterChords(group3Reg))
+  exclude = exclude.concat(this.group3)
 
   // Sevens (Maj7, 7, m7, mMaj7, m7b5, o7)
-  this.group3 = filterChords([])
+  var group4Reg = [/^o?7$|^(?!7)m?(?:Maj)?7(?:b5)?$/]
+  this.group4 = R.without(exclude, filterChords(group4Reg))
+  exclude = exclude.concat(this.group4)
 
-  // Other basic 7s. All basic 9s, 11s and 13s. All add 7/9/11/13s
-  this.group4 = filterChords([])
+  // Other 7s, basic 9/11/13s
+  var group5Reg = [
+    /^o(?:(?:m|M)?7)+$/,
+    /^(?:m|M)?(?:Maj|M)?(?:7|9|11|13)(?:b5)?$/
+  ]
+  this.group5 = R.without(exclude, filterChords(group5Reg))
+  exclude = exclude.concat(this.group5)
+
+  // 7/9/11/13s which include only one sharp/flat
+  var group6Reg = [/^(?:m|M)?(?:Maj|M)?(?:7|9|11|13)(?:(?:#|b)\d+)$/]
+  this.group6 = R.without(exclude, filterChords(group6Reg))
+  exclude = exclude.concat(this.group6)
 
   // Everything that hasn't been categorised above
-  this.group5 = filterChords([])
-
-  // All groups in an array
-  this.allGroups = [
-    this.group1, this.group2, this.group5, this.group4, this.group5, this.all
-  ]
+  this.group7 = R.without(exclude, filterChords())
 }
 
 // returns an array of chords that match the given regexes
 function filterChords(regArr) {
   if (!regArr || regArr.length === 0) return ALL_CHORDS
-  return ALL_CHORDS.filter(chord => {
+  var chords = ALL_CHORDS.filter(chord => {
     for (var regex of regArr) {
       if (R.test(regex, chord.trim())) {
         return chord
       }
     }
   })
+  return R.uniq(chords)
 }
 
 const randRootGen = rand(MIDI_START, MIDI_END)
