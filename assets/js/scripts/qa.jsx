@@ -56,6 +56,11 @@ const CHORD_GROUPS = new function () {
 
   // Everything that hasn't been categorised above
   this.group7 = R.without(exclude, filterChords())
+
+  this.allGroups = [
+    this.group1, this.group2, this.group3, this.group4, this.group5,
+    this.group6, this.group7
+  ]
 }
 
 // returns an array of chords that match the given regexes

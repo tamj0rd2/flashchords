@@ -1,42 +1,27 @@
 var React = require('react')
+var QA = require('../scripts/qa.jsx')
 
 
 var ChordCheckbox = React.createClass({
   propTypes: {
-    option: React.PropTypes.string.isRequired,
+    index: React.PropTypes.number.isRequired,
+    callback: React.PropTypes.func.isRequired,
+    text: React.PropTypes.string,
+    checked: React.PropTypes.bool.isRequired
   },
-  render: function () {
-    if (/^[0-9]+$/.test(this.props.option)) {
-      return (
-        <div className="col-xs-3">
-          <label className="checkbox-inline">
-            <input type="checkbox"/> {this.props.option}<sup>th</sup>
-          </label>
-        </div>
-      )
-    } else {
-      return (
-        <div className="col-xs-3">
-          <label className="checkbox-inline">
-            <input type="checkbox"/> {this.props.option}
-          </label>
-        </div>
-      )
-    }
-  }
-})
-
-var ChordGroup = React.createClass({
-  propTypes: {
-    class: React.PropTypes.string.isRequired,
-    options: React.PropTypes.array.isRequired,
+  handleChange: function (e) {
+    var newState = e.target.checked
+    this.props.callback(this.props.index, newState)
   },
   render: function () {
     return (
-      <div className={'row ' + this.props.class}>
-        {this.props.options.map((chord, index) =>
-          <ChordCheckbox option={chord} key={index}/>
-        )}
+      <div className="col-xs-3">
+        <label className="checkbox-inline">
+          <input type="checkbox" onChange={this.handleChange}
+                 checked={this.props.checked}
+          />
+          {this.props.text || 'Group ' + (this.props.index + 1)}
+        </label>
       </div>
     )
   }
@@ -90,14 +75,49 @@ var ModeSelector = React.createClass({
 })
 
 var Settings = React.createClass({
+  propTypes: {
+    callback: React.PropTypes.func.isRequired
+  },
+  generateCheckboxVals: function () {
+    var checkboxVals = []
+    for (let i = 0; i < QA.CHORD_GROUPS.allGroups.length; i++) {
+      checkboxVals.push(false)
+    }
+    checkboxVals.push(true)
+    return checkboxVals
+  },
+  getInitialState: function () {
+    return {
+      checkboxVals: this.generateCheckboxVals()
+    }
+  },
+  cbCallback: function (boxIndex, newState) {
+    var newVals = this.state.checkboxVals
+    newVals[boxIndex] = newState
+    this.setState({checkboxVals: newVals})
+    this.props.callback(newVals)
+  },
+  createCheckboxes: function (group, index) {
+    return <ChordCheckbox key={index}
+                          index={index}
+                          callback={this.cbCallback}
+                          checked={this.state.checkboxVals[index]}
+           />
+  },
   render: function () {
-    var stdChords = ['maj', 'min', 'dim', 'aug']
-    var svnChords = ['7', '9', '11', '13']
     var modes = ['Standard', 'Cheat', 'Timed']
+    var allIndex = QA.CHORD_GROUPS.allGroups.length
     return (
       <div className="settings">
-        <ChordGroup class="std-chords" options={stdChords}/>
-        <ChordGroup class="7th-chords" options={svnChords}/>
+        <div>
+          {QA.CHORD_GROUPS.allGroups.map(this.createCheckboxes)}
+          <ChordCheckbox key={allIndex}
+                         index={allIndex}
+                         text="All chords"
+                         callback={this.cbCallback}
+                         checked={this.state.checkboxVals[allIndex]}
+          />
+        </div>
         <ModeSelector modes={modes}/>
       </div>
     )
