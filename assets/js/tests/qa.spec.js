@@ -18,6 +18,7 @@ const helpers = {
 }
 
 describe('QA', () => {
+  let allTonalChords = tonal.chord.names()
 
   describe('midiToNote', () => {
     it('should convert a midi value to a note', () => {
@@ -49,7 +50,7 @@ describe('QA', () => {
 
   describe('filterChords', () => {
     it('should take an array of regexes and return matching chords', () => {
-      let result = QA.filterChords([/^m$/, /^M$/], QA.CHORD_GROUPS.all)
+      let result = QA.filterChords([/^m$/, /^M$/], allTonalChords)
       expect(result).toContain('m')
       expect(result).toContain('M')
       expect(result).not.toContain('M13')
@@ -72,7 +73,7 @@ describe('QA', () => {
       let result = QA.newQuestion()
       expect(typeof(result)).toBe('object')
       expect(QA.ROOTS).toContain(result.tonic)
-      expect(QA.CHORD_GROUPS.all).toContain(result.type)
+      expect(allTonalChords).toContain(result.type)
       expect(result.answer).not.toEqual('')
     })
     it('should only return chords that have answers', () => {

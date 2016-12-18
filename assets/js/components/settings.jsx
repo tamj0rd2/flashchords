@@ -1,3 +1,4 @@
+var R = require('ramda')
 var React = require('react')
 var QA = require('../scripts/qa.jsx')
 
@@ -79,10 +80,7 @@ var Settings = React.createClass({
     callback: React.PropTypes.func.isRequired
   },
   generateCheckboxVals: function () {
-    var checkboxVals = []
-    for (let i = 0; i < QA.CHORD_GROUPS.allGroups.length; i++) {
-      checkboxVals.push(false)
-    }
+    var checkboxVals = R.repeat(false, QA.CHORD_GROUPS.length - 1)
     checkboxVals.push(true)
     return checkboxVals
   },
@@ -98,25 +96,24 @@ var Settings = React.createClass({
     this.props.callback(newVals)
   },
   createCheckboxes: function (group, index) {
-    return <ChordCheckbox key={index}
-                          index={index}
-                          callback={this.cbCallback}
-                          checked={this.state.checkboxVals[index]}
+    let text
+    if (index === QA.CHORD_GROUPS.length - 1) {
+      text = 'All Chords'
+    }
+    return <ChordCheckbox
+              key={index}
+              index={index}
+              callback={this.cbCallback}
+              checked={this.state.checkboxVals[index]}
+              text={text}
            />
   },
   render: function () {
     var modes = ['Standard', 'Cheat', 'Timed']
-    var allIndex = QA.CHORD_GROUPS.allGroups.length
     return (
       <div className="settings">
         <div>
-          {QA.CHORD_GROUPS.allGroups.map(this.createCheckboxes)}
-          <ChordCheckbox key={allIndex}
-                         index={allIndex}
-                         text="All chords"
-                         callback={this.cbCallback}
-                         checked={this.state.checkboxVals[allIndex]}
-          />
+          {QA.CHORD_GROUPS.map(this.createCheckboxes)}
         </div>
         <ModeSelector modes={modes}/>
       </div>
