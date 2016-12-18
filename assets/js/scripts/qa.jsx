@@ -1,7 +1,7 @@
-var R = require('ramda')
-var rand = require('unique-random')
-var randArr = require('unique-random-array')
-var tonal = require('tonal')
+const R = require('ramda')
+const rand = require('unique-random')
+const randArr = require('unique-random-array')
+const tonal = require('tonal')
 
 
 const MIDI_START = 60
@@ -14,12 +14,12 @@ const CHORD_GROUPS = new function () {
   this.all = ALL_CHORDS
 
   // Major and minor chords
-  var group1Reg = [/^M$/, /^m$/]
+  let group1Reg = [/^M$/, /^m$/]
   this.group1 = filterChords(group1Reg)
-  var exclude = this.group1
+  let exclude = this.group1
 
   // Diminished, augmented, sustained (sus2, sus4, sus24), added
-  var group2Reg = [
+  let group2Reg = [
     /^o$/,
     /^M#5$/,
     /^sus24|Msus\d$/,
@@ -29,7 +29,7 @@ const CHORD_GROUPS = new function () {
   exclude = exclude.concat(this.group2)
 
   // Other easy chords with 4/5/6s
-  var group3Reg = [
+  let group3Reg = [
     /^(?:m|M)?(?:(?!7|9|11|13)\d)+$/,
     /^(?:m|M)(?:b|#)\d$/
   ]
@@ -37,12 +37,12 @@ const CHORD_GROUPS = new function () {
   exclude = exclude.concat(this.group3)
 
   // Sevens (Maj7, 7, m7, mMaj7, m7b5, o7)
-  var group4Reg = [/^o?7$|^(?!7)m?(?:Maj)?7(?:b5)?$/]
+  let group4Reg = [/^o?7$|^(?!7)m?(?:Maj)?7(?:b5)?$/]
   this.group4 = R.without(exclude, filterChords(group4Reg))
   exclude = exclude.concat(this.group4)
 
   // Other 7s, basic 9/11/13s
-  var group5Reg = [
+  let group5Reg = [
     /^o(?:(?:m|M)?7)+$/,
     /^(?:m|M)?(?:Maj|M)?(?:7|9|11|13)(?:b5)?$/
   ]
@@ -50,7 +50,7 @@ const CHORD_GROUPS = new function () {
   exclude = exclude.concat(this.group5)
 
   // 7/9/11/13s which include only one sharp/flat
-  var group6Reg = [/^(?:m|M)?(?:Maj|M)?(?:7|9|11|13)(?:(?:#|b)\d+)$/]
+  let group6Reg = [/^(?:m|M)?(?:Maj|M)?(?:7|9|11|13)(?:(?:#|b)\d+)$/]
   this.group6 = R.without(exclude, filterChords(group6Reg))
   exclude = exclude.concat(this.group6)
 
@@ -66,8 +66,8 @@ const CHORD_GROUPS = new function () {
 // returns an array of chords that match the given regexes
 function filterChords(regArr) {
   if (!regArr || regArr.length === 0) return ALL_CHORDS
-  var chords = ALL_CHORDS.filter(chord => {
-    for (var regex of regArr) {
+  let chords = ALL_CHORDS.filter(chord => {
+    for (let regex of regArr) {
       if (R.test(regex, chord.trim())) {
         return chord
       }
@@ -92,21 +92,21 @@ function randRoot() {
 
 // returns a random chord, e.g CmMaj7
 function newQuestion() {
-  var tonic = randRoot()
-  var type = randChordName()
+  let tonic = randRoot()
+  let type = randChordName()
   return {
-    tonic: tonic,
-    type: type,
+    tonic,
+    type,
     answer: tonal.chord.get(type, tonic)
   }
 }
 
 module.exports = {
-  ROOTS: ROOTS,
-  newQuestion: newQuestion,
-  randRoot: randRoot,
-  randChordName: randChordName,
-  midiToNote: midiToNote,
-  CHORD_GROUPS: CHORD_GROUPS,
-  filterChords: filterChords,
+  ROOTS,
+  newQuestion,
+  randRoot,
+  randChordName,
+  midiToNote,
+  CHORD_GROUPS,
+  filterChords,
 }
