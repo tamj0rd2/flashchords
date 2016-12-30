@@ -16,8 +16,8 @@ var ChordCheckbox = React.createClass({
   },
   render: function () {
     return (
-      <div className="col-xs-3">
-        <label className="checkbox-inline">
+      <div>
+        <label>
           <input type="checkbox" onChange={this.handleChange}
                  checked={this.props.checked}
           />
@@ -59,17 +59,16 @@ var ModeSelector = React.createClass({
   },
   render: function () {
     return (
-      <div className="mode-select">
-        <div className="input-group">
-          <span className="input-group-btn">
-            <button className="btn btn-primary" onClick={this.onBtnClick}>
+      <div>
+        <div>
+          <span>
+            <button onClick={this.onBtnClick}>
               Change Mode
             </button>
           </span>
-          <input disabled type="text" className="form-control text-center"
-                 value={this.state.mode + ' Mode'}/>
+          <input disabled type="text" value={this.state.mode + ' Mode'}/>
         </div>
-        <div className={this.state.timerClass}><strong>00:00</strong></div>
+        <div><strong>00:00</strong></div>
       </div>
     )
   }
@@ -111,7 +110,7 @@ var Settings = React.createClass({
   render: function () {
     var modes = ['Standard', 'Cheat', 'Timed']
     return (
-      <div className="settings">
+      <div>
         <div>
           {QA.CHORD_GROUPS.map(this.createCheckboxes)}
         </div>

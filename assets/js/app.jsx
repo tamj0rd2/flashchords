@@ -1,6 +1,7 @@
 var React = require('react')
 var Settings = require('./components/settings')
 var Card = require('./components/card')
+require('../css/app.scss')
 
 var App = React.createClass({
   tempCallback: function(checkboxVals) {
@@ -9,10 +10,8 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="container">
-        <div className="row">
-          <div className="col-xs-6"><Settings callback={this.tempCallback}/></div>
-          <div className="col-xs-6"><Card /></div>
-        </div>
+        {/* <Settings callback={this.tempCallback}/> */}
+        <Card />
       </div>
     )
   }

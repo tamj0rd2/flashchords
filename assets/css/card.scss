@@ -1,9 +1,49 @@
-.no-select {
-  /* Hides highlighting when an element is doubleclicked or selected */
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+@import 'common';
+
+.card {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 4em;
+
+  .cardBtn {
+    flex: 1 1 50%;
+    width: 100%;
+    text-align: center;
+
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+  }
+
+  .question {
+    background: $col1;
+    transition: color 0.5s;
+    color: $col4;
+  }
+
+  .question:hover {
+    color: rgb(45, 45, 45);;
+  }
+
+  .answer {
+    background: $col2;
+    transition: background 0.4s, color 0.4s;
+    color: rgb(203, 203, 203);
+  }
+
+  .answer:hover, .flipped {
+    background: $col4;
+    color: $col1;
+  }
 }
