@@ -1,0 +1,44 @@
+@import 'common';
+
+.settings {
+  background-color: $col4;
+  color: $col4;
+  height: 60%;
+  width: 100%;
+
+  position: absolute;
+
+  transition: top 0.5s;
+  top: $card-height;
+
+  .heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+    height: 25%;
+
+    background: $col1;
+    transition: background 0.5s;
+  }
+
+  .heading:hover {
+    background: $col5;
+  }
+}
+
+.settings.active {
+  top: 42.5%;
+
+  .heading {
+    background: $col5;
+  }
+
+  .heading:hover {
+    background: $col3;
+  }
+
+  .groupSelect {
+    color: $white;
+  }
+}

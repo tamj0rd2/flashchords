@@ -10,8 +10,8 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="container">
-        {/* <Settings callback={this.tempCallback}/> */}
         <Card />
+        <Settings callback={this.tempCallback}/>
       </div>
     )
   }

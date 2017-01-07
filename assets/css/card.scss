@@ -1,15 +1,10 @@
 @import 'common';
 
 .card {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-
+  height: $card-height;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   font-size: 4em;
 
@@ -22,8 +17,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    overflow: hidden;
   }
 
   .question {
@@ -33,13 +26,13 @@
   }
 
   .question:hover {
-    color: rgb(45, 45, 45);;
+    color: rgb(45, 45, 45);
   }
 
   .answer {
     background: $col2;
     transition: background 0.4s, color 0.4s;
-    color: rgb(203, 203, 203);
+    color: $white;
   }
 
   .answer:hover, .flipped {

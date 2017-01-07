@@ -1,6 +1,7 @@
 var R = require('ramda')
 var React = require('react')
 var QA = require('../scripts/qa.jsx')
+require('../../css/settings.scss')
 
 
 var ChordCheckbox = React.createClass({
@@ -16,14 +17,13 @@ var ChordCheckbox = React.createClass({
   },
   render: function () {
     return (
-      <div>
-        <label>
-          <input type="checkbox" onChange={this.handleChange}
-                 checked={this.props.checked}
-          />
-          {this.props.text || 'Group ' + (this.props.index + 1)}
-        </label>
-      </div>
+      <label>
+        <input type="checkbox"
+               onChange={this.handleChange}
+               checked={this.props.checked}
+        />
+        {this.props.text || 'Group ' + (this.props.index + 1)}
+      </label>
     )
   }
 })
@@ -59,16 +59,10 @@ var ModeSelector = React.createClass({
   },
   render: function () {
     return (
-      <div>
-        <div>
-          <span>
-            <button onClick={this.onBtnClick}>
-              Change Mode
-            </button>
-          </span>
-          <input disabled type="text" value={this.state.mode + ' Mode'}/>
-        </div>
-        <div><strong>00:00</strong></div>
+      <div className="modeControl">
+        <button onClick={this.onBtnClick}>Change Mode</button>
+        <input disabled type="text" value={this.state.mode + ' Mode'}/>
+        <strong>00:00</strong>
       </div>
     )
   }
@@ -78,15 +72,23 @@ var Settings = React.createClass({
   propTypes: {
     callback: React.PropTypes.func.isRequired
   },
+  getInitialState: function () {
+    return {
+      checkboxVals: this.generateCheckboxVals(),
+      settingsClass: 'settings'
+    }
+  },
+  showSettings: function () {
+    if (this.state.settingsClass === 'settings') {
+      this.setState({settingsClass: 'settings active'})
+    } else {
+      this.setState({settingsClass: 'settings'})
+    }
+  },
   generateCheckboxVals: function () {
     var checkboxVals = R.repeat(false, QA.CHORD_GROUPS.length - 1)
     checkboxVals.push(true)
     return checkboxVals
-  },
-  getInitialState: function () {
-    return {
-      checkboxVals: this.generateCheckboxVals()
-    }
   },
   cbCallback: function (boxIndex, newState) {
     var newVals = this.state.checkboxVals
@@ -110,11 +112,12 @@ var Settings = React.createClass({
   render: function () {
     var modes = ['Standard', 'Cheat', 'Timed']
     return (
-      <div>
-        <div>
+      <div className={this.state.settingsClass}>
+        <div className="heading" onClick={this.showSettings}>Settings</div>
+        <div className="groupSelect">
           {QA.CHORD_GROUPS.map(this.createCheckboxes)}
         </div>
-        <ModeSelector modes={modes}/>
+        {/* <ModeSelector modes={modes}/> */}
       </div>
     )
   }
