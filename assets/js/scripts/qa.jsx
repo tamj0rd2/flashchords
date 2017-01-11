@@ -8,7 +8,14 @@ const MIDI_START = 60
 const MIDI_END = 71
 
 // Gets a list of all root notes
-const ROOTS = R.range(MIDI_START, MIDI_END + 1).map(note => midiToNote(note))
+const ROOTS = (function () {
+  let result = []
+  let naturalRoots = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+  naturalRoots.forEach(natural => {
+    result.push(`${natural}b`, natural, `${natural}#`)
+  })
+  return result
+})()
 const ALL_CHORDS = tonal.chord.names()
 
 // returns a function to generate a random root note

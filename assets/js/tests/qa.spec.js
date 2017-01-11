@@ -29,12 +29,12 @@ describe('QA', () => {
 
   describe('ROOTS', () => {
     let roots = QA.ROOTS
-    it('should start at C and end at B', () => {
-      expect(roots[0]).toBe('C')
-      expect(roots[roots.length - 1]).toBe('B')
+    it('should start at Cb and end at B#', () => {
+      expect(roots[0]).toBe('Cb')
+      expect(roots[roots.length - 1]).toBe('B#')
     })
-    it('should contain 12 values', () => {
-      expect(roots.length).toBe(12)
+    it('should contain 21 values (one for each possible root)', () => {
+      expect(roots.length).toBe(21)
     })
   })
 
