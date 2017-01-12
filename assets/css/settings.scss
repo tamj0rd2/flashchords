@@ -1,11 +1,15 @@
 @import 'common';
 
+
+$card-half-height: $card-height / 2;
+$free-space: 100vh - $card-height;
+$settings-height: $free-space + $card-half-height;
+
 .settings {
   background-color: $col4;
   color: $col4;
-  height: 60%;
+  height: $free-space + $card-half-height;
   width: 100%;
-
   position: absolute;
 
   transition: top 0.5s;
@@ -16,7 +20,7 @@
     justify-content: center;
     align-items: center;
     font-size: 3em;
-    height: 25%;
+    height: $free-space;
 
     background: $col1;
     transition: background 0.5s;
@@ -25,10 +29,30 @@
   .heading:hover {
     background: $col5;
   }
+
+  .settingsContent {
+    height: calc(100% - #{$free-space});
+
+    .groupSelect {
+      height: 100%;
+      box-sizing: border-box;
+      padding: 4vmax;
+
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+      align-content: space-around;
+      color: $white;
+
+      .chordGroup {
+        width: calc(100% * (1/4) - 10px - 1px);
+      }
+    }
+  }
 }
 
 .settings.active {
-  top: 42.5%;
+  top: $card-half-height;
 
   .heading {
     background: $col5;
@@ -36,9 +60,5 @@
 
   .heading:hover {
     background: $col3;
-  }
-
-  .groupSelect {
-    color: $white;
   }
 }

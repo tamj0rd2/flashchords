@@ -2,6 +2,7 @@ var React = require('react')
 var Settings = require('./components/settings')
 var Card = require('./components/card')
 require('../css/app.scss')
+require('../css/checkbox.scss')
 
 var App = React.createClass({
   tempCallback: function(checkboxVals) {
