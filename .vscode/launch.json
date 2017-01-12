@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Start Jasmine",
+      "type": "node2",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/jasmine-node/lib/jasmine-node/cli.js",
+      "cwd": "${workspaceRoot}",
+      "args": [
+        "./assets/js/tests/qa.spec.js"
+      ]
+    }
+  ]
+}
