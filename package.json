@@ -35,6 +35,7 @@
     "less-loader": "^2.2.3",
     "node-sass": "^3.13.0",
     "ramda": "^0.22.1",
+    "random-int": "^1.0.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "sass-loader": "^4.0.2",
@@ -55,6 +56,7 @@
     "jasmine-core": "^2.5.2",
     "jasmine-node": "^1.14.5",
     "react-hot-loader": "^3.0.0-beta.6",
+    "unique-random-array": "^1.0.0",
     "webpack-dev-server": "^1.16.2"
   }
 }

@@ -1,13 +1,10 @@
 const R = require('ramda')
-const rand = require('unique-random')
 const randArr = require('unique-random-array')
+const randInt = require('random-int')
 const tonal = require('tonal')
 
 
-const MIDI_START = 60
-const MIDI_END = 71
-
-// Gets a list of all root notes
+// a list of all possible root notes
 const ROOTS = (function () {
   let result = []
   let naturalRoots = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
@@ -17,9 +14,6 @@ const ROOTS = (function () {
   return result
 })()
 const ALL_CHORDS = tonal.chord.names()
-
-// returns a function to generate a random root note
-const randRootGen = rand(MIDI_START, MIDI_END)
 
 // generates a random chord from a list of chords
 const randChordName = randArr(ALL_CHORDS)
@@ -96,9 +90,17 @@ function midiToNote(note) {
   return tonal.note.pc(tonal.note.fromMidi(note))
 }
 
+let lastRoot
+
 // returns a root note
 function randRoot() {
-  return midiToNote(randRootGen())
+  let newRoot
+  do {
+    newRoot = ROOTS[randInt(ROOTS.length - 1)]
+  }
+  while (newRoot === lastRoot)
+  lastRoot = newRoot
+  return newRoot
 }
 
 // returns a random chord, e.g CmMaj7
