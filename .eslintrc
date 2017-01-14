@@ -9,7 +9,7 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:jasmine/recommended",
+    "plugin:jasmine/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -38,6 +38,10 @@
     "semi": [
       "error",
       "never"
+    ],
+    "max-len": [
+      "error",
+      80
     ]
   }
 }
