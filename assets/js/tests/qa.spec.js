@@ -1,5 +1,6 @@
 const QA = require('../scripts/qa.jsx')
 const tonal = require('tonal')
+const R = require('ramda')
 
 const helpers = {
   // returns true if each generated value is different from the last
@@ -15,6 +16,10 @@ const helpers = {
     }
     return true
   },
+  // slices an array (end excluded) then returns the flattened array
+  flatSlice (arr, start, end) {
+    return R.flatten(R.slice(start, end, arr))
+  }
 }
 
 describe('QA', () => {
@@ -65,6 +70,36 @@ describe('QA', () => {
     })
     it('should not return the same name twice in a row', () => {
       helpers.isUnique(QA.randChordName)
+    })
+    it('should only return chords in the given groups, end exclusive', () => {
+      let test = (selection) => {
+        let expectedChords = []
+        let unexpectedChords = []
+
+        if (selection[selection.length - 1]) {
+          expectedChords = allTonalChords
+        } else {
+          // if "All Chords" isn't selected, make a list of un/acceptable chords
+          for (let i = 0; i < selection.length - 1; i++) {
+            if (selection[i]) {
+              expectedChords.push(QA.CHORD_GROUPS[i])
+            } else {
+              unexpectedChords.push(QA.CHORD_GROUPS[i])
+            }
+          }
+        }
+
+        let chord = QA.randChordName(selection)
+        expect(R.flatten(expectedChords)).toContain(chord)
+        expect(R.flatten(unexpectedChords)).not.toContain(chord)
+      }
+
+      // TODO: make these tests pass
+      test([true, false, false, false, false, false, false, false])
+      test([false, true, false, true, false, false, false, false])
+      test([false, true, false, false, false, false, false, true])
+      test([true, false, false, false, false, false, false, true])
+      test([true, true, true, true, false, false, false, false])
     })
   })
 

@@ -1,5 +1,4 @@
 const R = require('ramda')
-const randArr = require('unique-random-array')
 const randInt = require('random-int')
 const tonal = require('tonal')
 
@@ -14,9 +13,6 @@ const ROOTS = (function () {
   return result
 })()
 const ALL_CHORDS = tonal.chord.names()
-
-// generates a random chord from a list of chords
-const randChordName = randArr(ALL_CHORDS)
 
 // An array that contains lists of all of the chord difficulty groups
 const CHORD_GROUPS = (() => {
@@ -103,10 +99,38 @@ function randRoot() {
   return newRoot
 }
 
+let lastChordName
+
+// generates a random chord from a list of chords
+function randChordName(selection) {
+  let chordGen = (arr) => {
+    let newChordName
+    do {
+      newChordName = arr[randInt(arr.length - 1)]
+    }
+    while (newChordName === lastChordName)
+    lastChordName = newChordName
+    return newChordName
+  }
+
+  if (!selection || selection.pop()) {
+    return chordGen(ALL_CHORDS)
+  }
+
+  let chords = []
+  for (let i = 0; i < selection.length; i++) {
+    if (selection[i]) {
+      chords.push(CHORD_GROUPS[i])
+    }
+  }
+  chords = R.flatten(chords)
+  return chordGen(chords)
+}
+
 // returns a random chord, e.g CmMaj7
-function newQuestion() {
+function newQuestion(selection) {
   let tonic = randRoot()
-  let type = randChordName()
+  let type = randChordName(selection)
   return {
     tonic,
     type,
