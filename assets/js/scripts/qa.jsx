@@ -81,42 +81,34 @@ function filterChords(regArr) {
   return R.uniq(chords)
 }
 
-// TODO: refactor randRoot and randChordName to use same gen function
+function chordGenFromArr (arr, lastVal) {
+  // function that generates a random chord from an array of chords
+  // the chord will always be different from the last
+  let newVal
+  do {
+    newVal = arr[randInt(arr.length - 1)]
+  }
+  while (newVal === lastVal)
+  return newVal
+}
 
 let lastRoot
 
-// returns a random root note that is different from the last
+// returns a random root note
 function randRoot() {
-  let newRoot
-  do {
-    newRoot = ROOTS[randInt(ROOTS.length - 1)]
-  }
-  while (newRoot === lastRoot)
+  let newRoot = chordGenFromArr(ROOTS, lastRoot)
   lastRoot = newRoot
   return newRoot
 }
 
 let lastChordName
 
-// generates a random chord from a list of chords and must be
-// different from the last
+// generates a random chord
 function randChordName(selection) {
-
-  // function that generates a random chord from an array
-  let chordGen = (arr) => {
-    let newChordName
-    do {
-      newChordName = arr[randInt(arr.length - 1)]
-    }
-    // if the chord is the same as the lastChordName, try again
-    while (newChordName === lastChordName)
-    lastChordName = newChordName
-    return newChordName
-  }
 
   // don't filter chords if a selection isn't given or All Chords is selected
   if (!selection || selection.pop()) {
-    return chordGen(ALL_CHORDS)
+    return chordGenFromArr(ALL_CHORDS, lastChordName)
   }
 
   // put together a list of acceptable chords
@@ -127,7 +119,7 @@ function randChordName(selection) {
     }
   }
   chords = R.flatten(chords)
-  return chordGen(chords)
+  return chordGenFromArr(chords, lastChordName)
 }
 
 // return a random chord, e.g CmMaj7
