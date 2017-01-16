@@ -18,6 +18,7 @@ var ChordCheckbox = React.createClass({
     }
   },
   handleChange: function (e) {
+    // passes the new value for the checkbox to the parent component
     var newState = e.target.checked
     this.props.callback(this.props.index, newState)
   },
@@ -96,14 +97,18 @@ var Settings = React.createClass({
     }
   },
   generateCheckboxVals: function () {
+    // sets default values that the checkboxes will use
     var checkboxVals = R.repeat(false, QA.CHORD_GROUPS.length - 1)
     checkboxVals.push(true)
     return checkboxVals
   },
-  cbCallback: function (boxIndex, newState) {
+  checkboxCallback: function (boxIndex, newState) {
+    // get the current checkbox values and update the array with the
+    // clicked checkbox's new value
     var newVals = this.state.checkboxVals
     newVals[boxIndex] = newState
     this.setState({checkboxVals: newVals})
+    // do something with the new checkbox values (in App.jsx)
     this.props.callback(newVals)
   },
   createCheckboxes: function (group, index) {
@@ -114,13 +119,13 @@ var Settings = React.createClass({
     return <ChordCheckbox
               key={index}
               index={index}
-              callback={this.cbCallback}
+              callback={this.checkboxCallback}
               checked={this.state.checkboxVals[index]}
               text={text}
            />
   },
   render: function () {
-    var modes = ['Standard', 'Cheat', 'Timed']
+    // var modes = ['Standard', 'Cheat', 'Timed']
     return (
       <div className={this.state.settingsClass}>
         <div className="heading" onClick={this.showSettings}>Settings</div>

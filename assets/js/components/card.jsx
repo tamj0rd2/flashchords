@@ -12,11 +12,13 @@ var Card = React.createClass({
     }
   },
   questionClick: function () {
+    // show a new question and set the answer back to its inital state
     this.setState({question: QA.newQuestion()})
     this.setState({text: 'Flip'})
     this.setState({answerClass: 'cardBtn answer'})
   },
   answerClick: function () {
+    // shows the answer and makes relevant class name change
     this.setState({text: this.state.question.answer.join(', ')})
     this.setState({answerClass: 'cardBtn answer flipped'})
   },

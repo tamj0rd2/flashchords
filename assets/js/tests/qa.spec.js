@@ -25,13 +25,6 @@ const helpers = {
 describe('QA', () => {
   let allTonalChords = tonal.chord.names()
 
-  describe('midiToNote', () => {
-    it('should convert a midi value to a note', () => {
-      let note = QA.midiToNote(60)
-      expect(note).toEqual('C')
-    })
-  })
-
   describe('ROOTS', () => {
     let roots = QA.ROOTS
     it('should start at Cb and end at B#', () => {
@@ -94,7 +87,6 @@ describe('QA', () => {
         expect(R.flatten(unexpectedChords)).not.toContain(chord)
       }
 
-      // TODO: make these tests pass
       test([true, false, false, false, false, false, false, false])
       test([false, true, false, true, false, false, false, false])
       test([false, true, false, false, false, false, false, true])

@@ -81,14 +81,11 @@ function filterChords(regArr) {
   return R.uniq(chords)
 }
 
-// converts a midi integer value to a note
-function midiToNote(note) {
-  return tonal.note.pc(tonal.note.fromMidi(note))
-}
+// TODO: refactor randRoot and randChordName to use same gen function
 
 let lastRoot
 
-// returns a root note
+// returns a random root note that is different from the last
 function randRoot() {
   let newRoot
   do {
@@ -101,22 +98,28 @@ function randRoot() {
 
 let lastChordName
 
-// generates a random chord from a list of chords
+// generates a random chord from a list of chords and must be
+// different from the last
 function randChordName(selection) {
+
+  // function that generates a random chord from an array
   let chordGen = (arr) => {
     let newChordName
     do {
       newChordName = arr[randInt(arr.length - 1)]
     }
+    // if the chord is the same as the lastChordName, try again
     while (newChordName === lastChordName)
     lastChordName = newChordName
     return newChordName
   }
 
+  // don't filter chords if a selection isn't given or All Chords is selected
   if (!selection || selection.pop()) {
     return chordGen(ALL_CHORDS)
   }
 
+  // put together a list of acceptable chords
   let chords = []
   for (let i = 0; i < selection.length; i++) {
     if (selection[i]) {
@@ -127,7 +130,7 @@ function randChordName(selection) {
   return chordGen(chords)
 }
 
-// returns a random chord, e.g CmMaj7
+// return a random chord, e.g CmMaj7
 function newQuestion(selection) {
   let tonic = randRoot()
   let type = randChordName(selection)
@@ -143,7 +146,6 @@ module.exports = {
   newQuestion,
   randRoot,
   randChordName,
-  midiToNote,
   CHORD_GROUPS,
   filterChords,
 }
