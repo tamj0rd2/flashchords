@@ -1,8 +1,9 @@
 var React = require('react')
 var Settings = require('./components/settings')
-var Card = require('./components/card')
 var QA = require('./scripts/qa.jsx')
+
 require('../css/app.scss')
+require('../css/card.scss')
 require('../css/checkbox.scss')
 
 
@@ -30,13 +31,14 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="container">
-        <Card
-          question={this.state.question}
-          answerText={this.state.answerText}
-          answerClass={this.state.answerClass}
-          resetCard={this.resetCard}
-          showAnswer={this.showAnswer}
-        />
+        <div className="card">
+          <div className="cardBtn question" onClick={this.resetCard}>
+            <strong>{this.state.question.tonic}</strong>{this.state.question.type}
+          </div>
+          <div className={this.state.answerClass} onClick={this.showAnswer}>
+            {this.state.answerText}
+          </div>
+        </div>
         <Settings callback={this.tempCallback}/>
       </div>
     )
