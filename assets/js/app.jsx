@@ -1,6 +1,7 @@
 var React = require('react')
 var Settings = require('./components/settings')
 var QA = require('./scripts/qa.jsx')
+var R = require('ramda')
 
 require('../css/app.scss')
 require('../css/card.scss')
@@ -9,14 +10,22 @@ require('../css/checkbox.scss')
 
 var App = React.createClass({
   getInitialState: function () {
+    return R.merge(this.getInitialCardState(), this.initialSettingsState())
+  },
+  getInitialCardState: function () {
     return {
       question: QA.newQuestion(),
       answerText: 'Flip',
-      answerClass: 'cardBtn answer',
+      answerClass: 'cardBtn answer'
+    }
+  },
+  initialSettingsState: function () {
+    return {
+
     }
   },
   resetCard: function () {
-    this.setState(this.getInitialState())
+    this.setState(this.getInitialCardState())
   },
   showAnswer: function () {
     // shows the answer and makes relevant class name change
@@ -33,7 +42,8 @@ var App = React.createClass({
       <div className="container">
         <div className="card">
           <div className="cardBtn question" onClick={this.resetCard}>
-            <strong>{this.state.question.tonic}</strong>{this.state.question.type}
+            <strong>{this.state.question.tonic}</strong>
+            {this.state.question.type}
           </div>
           <div className={this.state.answerClass} onClick={this.showAnswer}>
             {this.state.answerText}
