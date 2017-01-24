@@ -39,45 +39,6 @@ var ChordCheckbox = React.createClass({
   }
 })
 
-var ModeSelector = React.createClass({
-  propTypes: {
-    modes: React.PropTypes.array.isRequired,
-  },
-  getInitialState: function () {
-    return {
-      modeIndex: 0,
-      mode: this.props.modes[0],
-      timerClass: 'hidden',
-    }
-  },
-  onBtnClick: function () {
-    let mode = this.setMode()
-    this.setTimerClass(mode)
-  },
-  setMode: function () {
-    let newModeIndex = (this.state.modeIndex + 1) % this.props.modes.length
-    let newMode = this.props.modes[newModeIndex]
-    this.setState({modeIndex: newModeIndex})
-    this.setState({mode: newMode})
-    return newMode
-  },
-  setTimerClass: function (mode) {
-    if (mode === 'Timed') {
-      this.setState({timerClass: ''})
-    } else {
-      this.setState({timerClass: 'hidden'})
-    }
-  },
-  render: function () {
-    return (
-      <div className="modeControl">
-        <button onClick={this.onBtnClick}>Change Mode</button>
-        <input disabled type="text" value={this.state.mode + ' Mode'}/>
-        <strong>00:00</strong>
-      </div>
-    )
-  }
-})
 
 var Settings = React.createClass({
   propTypes: {
@@ -125,7 +86,6 @@ var Settings = React.createClass({
            />
   },
   render: function () {
-    // var modes = ['Standard', 'Cheat', 'Timed']
     return (
       <div className={this.state.settingsClass}>
         <div className="heading" onClick={this.showSettings}>Settings</div>
@@ -133,7 +93,6 @@ var Settings = React.createClass({
           <div className="groupSelect">
             {QA.CHORD_GROUPS.map(this.createCheckboxes)}
           </div>
-          {/* <ModeSelector modes={modes}/> */}
         </div>
       </div>
     )
