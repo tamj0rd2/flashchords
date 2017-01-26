@@ -1,4 +1,3 @@
-var R = require('ramda')
 var React = require('react')
 var QA = require('../scripts/qa.jsx')
 var newId = require('../scripts/newid.js')
@@ -42,56 +41,33 @@ var ChordCheckbox = React.createClass({
 
 var Settings = React.createClass({
   propTypes: {
-    callback: React.PropTypes.func.isRequired
+    handleCheckboxClick: React.PropTypes.func.isRequired,
+    showSettings: React.PropTypes.func.isRequired,
+    settingsClass: React.PropTypes.string.isRequired,
+    checkboxVals: React.PropTypes.array.isRequired
   },
-  getInitialState: function () {
-    return {
-      checkboxVals: this.generateCheckboxVals(),
-      settingsClass: 'settings'
-    }
-  },
-  showSettings: function () {
-    if (this.state.settingsClass === 'settings') {
-      this.setState({settingsClass: 'settings active'})
-    } else {
-      this.setState({settingsClass: 'settings'})
-    }
-  },
-  generateCheckboxVals: function () {
-    // sets default values that the checkboxes will use
-    var checkboxVals = R.repeat(false, QA.CHORD_GROUPS.length - 1)
-    checkboxVals.push(true)
-    return checkboxVals
-  },
-  checkboxCallback: function (boxIndex, newState) {
-    // get the current checkbox values and update the array with the
-    // clicked checkbox's new value
-    var newVals = this.state.checkboxVals
-    newVals[boxIndex] = newState
-    this.setState({checkboxVals: newVals})
-    // do something with the new checkbox values (in App.jsx)
-    this.props.callback(newVals)
-  },
-  createCheckboxes: function (group, index) {
+  createCheckbox: function (group, index) {
     let text
     if (index === QA.CHORD_GROUPS.length - 1) {
       text = 'All Chords'
     }
-    return <ChordCheckbox
-              key={index}
-              index={index}
-              callback={this.checkboxCallback}
-              checked={this.state.checkboxVals[index]}
-              text={text}
-           />
+    return (
+      <ChordCheckbox
+        key={index}
+        index={index}
+        callback={this.props.handleCheckboxClick}
+        checked={this.props.checkboxVals[index]}
+        text={text}
+      />
+    )
   },
   render: function () {
     return (
-      <div className={this.state.settingsClass}>
-        <div className="heading" onClick={this.showSettings}>Settings</div>
+      <div className={this.props.settingsClass}>
+        <div className="heading" onClick={this.props.showSettings}>Settings</div>
         <div className="settingsContent">
           <div className="groupSelect">
-            {QA.CHORD_GROUPS.map(this.createCheckboxes)}
+            {QA.CHORD_GROUPS.map(this.createCheckbox)}
           </div>
         </div>
       </div>

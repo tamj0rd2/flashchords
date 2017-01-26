@@ -20,8 +20,13 @@ var App = React.createClass({
     }
   },
   initialSettingsState: function () {
-    return {
+    // make 'all chords' the default chord group selection
+    var checkboxVals = R.repeat(false, QA.CHORD_GROUPS.length - 1)
+    checkboxVals.push(true)
 
+    return {
+      checkboxVals,
+      settingsClass: 'settings',
     }
   },
   resetCard: function () {
@@ -31,6 +36,22 @@ var App = React.createClass({
     // shows the answer and makes relevant class name change
     this.setState({answerText: this.state.question.answer.join(', ')})
     this.setState({answerClass: 'cardBtn answer flipped'})
+  },
+  showSettings: function () {
+    if (this.state.settingsClass === 'settings') {
+      this.setState({settingsClass: 'settings active'})
+    } else {
+      this.setState({settingsClass: 'settings'})
+    }
+  },
+  handleCheckboxClick: function (boxIndex, newState) {
+    // get the current checkbox values and update the array with the
+    // clicked checkbox's new value
+    var newVals = this.state.checkboxVals
+    newVals[boxIndex] = newState
+    this.setState({checkboxVals: newVals})
+    // do something with the new checkbox values (in App.jsx)
+    this.tempCallback(newVals)
   },
   tempCallback: function(checkboxVals) {
     // will be used to pass the selection of chord groups to the Card
@@ -49,7 +70,13 @@ var App = React.createClass({
             {this.state.answerText}
           </div>
         </div>
-        <Settings callback={this.tempCallback}/>
+        <Settings
+          callback={this.tempCallback}
+          checkboxVals={this.state.checkboxVals}
+          handleCheckboxClick={this.handleCheckboxClick}
+          showSettings={this.showSettings}
+          settingsClass={this.state.settingsClass}
+        />
       </div>
     )
   }
