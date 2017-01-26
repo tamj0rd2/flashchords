@@ -13,8 +13,14 @@ var App = React.createClass({
     return R.merge(this.getInitialCardState(), this.initialSettingsState())
   },
   getInitialCardState: function () {
+    // filter by chord group
+    let selection
+    if (this.state) {
+      selection = this.state.checkboxVals
+    }
+
     return {
-      question: QA.newQuestion(),
+      question: QA.newQuestion(selection),
       answerText: 'Flip',
       answerClass: 'cardBtn answer'
     }
@@ -50,13 +56,6 @@ var App = React.createClass({
     var newVals = this.state.checkboxVals
     newVals[boxIndex] = newState
     this.setState({checkboxVals: newVals})
-    // do something with the new checkbox values (in App.jsx)
-    this.tempCallback(newVals)
-  },
-  tempCallback: function(checkboxVals) {
-    // will be used to pass the selection of chord groups to the Card
-    // so that new questions can be filtered by chord group
-    console.log(`Checkbox values are: [${checkboxVals.join(', ')}]`)
   },
   render: function() {
     return (
@@ -71,7 +70,6 @@ var App = React.createClass({
           </div>
         </div>
         <Settings
-          callback={this.tempCallback}
           checkboxVals={this.state.checkboxVals}
           handleCheckboxClick={this.handleCheckboxClick}
           showSettings={this.showSettings}

@@ -106,8 +106,10 @@ let lastChordName
 // generates a random chord
 function randChordName(selection) {
 
-  // don't filter chords if a selection isn't given or All Chords is selected
-  if (!selection || selection.pop()) {
+  // don't filter if no selection given, AllChords chosen, or no groups chosen
+  if (!selection || selection.length === 0) {
+    return chordGenFromArr(ALL_CHORDS, lastChordName)
+  } else if (R.last(selection) || R.all(R.equals(false), selection)) {
     return chordGenFromArr(ALL_CHORDS, lastChordName)
   }
 

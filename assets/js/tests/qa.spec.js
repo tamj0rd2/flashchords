@@ -64,6 +64,33 @@ describe('QA', () => {
     it('should not return the same name twice in a row', () => {
       helpers.isUnique(QA.randChordName)
     })
+    describe('should return all chords if', () => {
+      it('s selection is blank', () => {
+        let result = QA.randChordName([])
+        expect(allTonalChords).toContain(result)
+      })
+      it('s selection is not given', () => {
+        let result = QA.randChordName()
+        expect(allTonalChords).toContain(result)
+      })
+      it('s selection is undefined', () => {
+        let selection
+        let result = QA.randChordName(selection)
+        expect(allTonalChords).toContain(result)
+      })
+      it('s selection has "All Chords" chosen', () => {
+        let selection = R.repeat(false, QA.CHORD_GROUPS.length - 1)
+        selection.push(true)
+
+        let result = QA.randChordName(selection)
+        expect(allTonalChords).toContain(result)
+      })
+      it('no groups have been selected', () => {
+        let selection = R.repeat(false, QA.CHORD_GROUPS.length)
+        let result = QA.randChordName(selection)
+        expect(allTonalChords).toContain(result)
+      })
+    })
     it('should only return chords in the given groups, end exclusive', () => {
       let test = (selection) => {
         let expectedChords = []
