@@ -12,13 +12,7 @@ var App = React.createClass({
   getInitialState: function () {
     return R.merge(this.getInitialCardState(), this.initialSettingsState())
   },
-  getInitialCardState: function () {
-    // filter by chord group
-    let selection
-    if (this.state) {
-      selection = this.state.checkboxVals
-    }
-
+  getInitialCardState: function (selection) {
     return {
       question: QA.newQuestion(selection),
       answerText: 'Flip',
@@ -35,8 +29,9 @@ var App = React.createClass({
       settingsClass: 'settings',
     }
   },
-  resetCard: function () {
-    this.setState(this.getInitialCardState())
+  resetCard: function (a, b, selection) {
+    selection = selection || this.state.checkboxVals
+    this.setState(this.getInitialCardState(selection))
   },
   showAnswer: function () {
     // shows the answer and makes relevant class name change
@@ -53,10 +48,26 @@ var App = React.createClass({
   handleCheckboxClick: function (boxIndex, newState) {
     // get the current checkbox values and update the array with the
     // clicked checkbox's new value
-    var newVals = this.state.checkboxVals
+
+    // use slice to create copy of the checkboxvals array
+    let newVals = this.state.checkboxVals.slice(0)
+    let allChordsIndex = newVals.length - 1
     newVals[boxIndex] = newState
+
+    // if everything is now unselected, select AllChords
+    if (R.all(R.equals(false), newVals)) {
+      newVals[allChordsIndex] = true
+    } // if all chords gets chosen, deselect everything else
+    else if (newState && boxIndex === allChordsIndex) {
+      newVals = R.repeat(false, QA.CHORD_GROUPS.length - 1)
+      newVals.push(true)
+    } // deselect AllChords if another box was ticked
+    else if (newState && boxIndex !== allChordsIndex) {
+      newVals[allChordsIndex] = false
+    }
+
     this.setState({checkboxVals: newVals})
-    this.resetCard()
+    this.resetCard(undefined, undefined, newVals)
   },
   render: function() {
     return (
