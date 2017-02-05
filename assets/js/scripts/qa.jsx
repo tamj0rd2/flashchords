@@ -106,11 +106,18 @@ let lastChordName
 // generates a random chord
 function randChordName(selection) {
 
+  // generate the chord and set lastChordName
+  let genChord = (arr) => {
+    let newChordName = chordGenFromArr(arr, lastChordName)
+    lastChordName = newChordName
+    return newChordName
+  }
+
   // don't filter if no selection given, AllChords chosen, or no groups chosen
   if (!selection || selection.length === 0) {
-    return chordGenFromArr(ALL_CHORDS, lastChordName)
+    return genChord(ALL_CHORDS)
   } else if (R.last(selection) || R.all(R.equals(false), selection)) {
-    return chordGenFromArr(ALL_CHORDS, lastChordName)
+    return genChord(ALL_CHORDS)
   }
 
   // put together a list of acceptable chords
@@ -121,7 +128,7 @@ function randChordName(selection) {
     }
   }
   chords = R.flatten(chords)
-  return chordGenFromArr(chords, lastChordName)
+  return genChord(chords)
 }
 
 // return a random chord, e.g CmMaj7
