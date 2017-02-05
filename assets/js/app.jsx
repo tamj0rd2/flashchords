@@ -56,6 +56,7 @@ var App = React.createClass({
     var newVals = this.state.checkboxVals
     newVals[boxIndex] = newState
     this.setState({checkboxVals: newVals})
+    this.resetCard()
   },
   render: function() {
     return (
