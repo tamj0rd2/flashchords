@@ -131,10 +131,19 @@ function randChordName(selection) {
   return genChord(chords)
 }
 
+function cleanType (type) {
+  switch (type) {
+    case 'M':
+      return ''
+    default:
+      return type
+  }
+}
+
 // return a random chord, e.g CmMaj7
 function newQuestion(selection) {
   let tonic = randRoot()
-  let type = randChordName(selection)
+  let type = cleanType(randChordName(selection))
   return {
     tonic,
     type,
