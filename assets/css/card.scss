@@ -6,7 +6,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 4em;
+  @include responsive-font($mainFontSize, $minFontSize, $maxFontSize);
 
   .cardBtn {
     flex-grow: 1;
@@ -23,6 +23,7 @@
     background: $col1;
     transition: color 0.5s;
     color: $col4;
+
   }
 
   .question:hover {

@@ -39,6 +39,7 @@
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "sass-loader": "^4.0.2",
+    "string-natural-compare": "^2.0.2",
     "style-loader": "^0.13.1",
     "tonal": "^0.68.0",
     "unique-random": "^1.0.0",

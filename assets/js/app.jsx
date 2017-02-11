@@ -2,10 +2,10 @@ var React = require('react')
 var Settings = require('./components/settings')
 var QA = require('./scripts/qa.jsx')
 var R = require('ramda')
+var naturalSort = require('string-natural-compare')
 
 require('../css/app.scss')
 require('../css/card.scss')
-require('../css/checkbox.scss')
 
 
 var App = React.createClass({
@@ -27,7 +27,24 @@ var App = React.createClass({
     return {
       checkboxVals,
       settingsClass: 'settings',
+      selectedChords: this.determineSelectedChords(checkboxVals)
     }
+  },
+  determineSelectedChords: function (checkboxVals) {
+    let selection = checkboxVals || this.state.checkboxVals
+    let chords = []
+
+    if (R.last(selection)) {
+      chords = R.last(QA.CHORD_GROUPS)
+    } else {
+      checkboxVals.forEach((value, index) => {
+        if (value) {
+          chords.push(QA.CHORD_GROUPS[index])
+        }
+      })
+    }
+
+    return R.dropRepeats(R.flatten(chords)).sort(naturalSort).join(', ')
   },
   resetCard: function (a, b, selection) {
     selection = selection || this.state.checkboxVals
@@ -46,8 +63,9 @@ var App = React.createClass({
     }
   },
   handleCheckboxClick: function (boxIndex, newState) {
-    // get the current checkbox values and update the array with the
-    // clicked checkbox's new value
+    /* updates the checkboxVals state, the selected chords and
+     * resets the card
+     */
 
     // use slice to create copy of the checkboxvals array
     let newVals = this.state.checkboxVals.slice(0)
@@ -67,6 +85,7 @@ var App = React.createClass({
     }
 
     this.setState({checkboxVals: newVals})
+    this.setState({selectedChords: this.determineSelectedChords(newVals)})
     this.resetCard(undefined, undefined, newVals)
   },
   render: function() {
@@ -86,6 +105,7 @@ var App = React.createClass({
           handleCheckboxClick={this.handleCheckboxClick}
           showSettings={this.showSettings}
           settingsClass={this.state.settingsClass}
+          selectedChords={this.state.selectedChords}
         />
       </div>
     )

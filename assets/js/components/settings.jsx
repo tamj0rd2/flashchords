@@ -1,4 +1,5 @@
 var React = require('react')
+var R = require('ramda')
 var QA = require('../scripts/qa.jsx')
 var newId = require('../scripts/newid.js')
 require('../../css/settings.scss')
@@ -13,7 +14,8 @@ var ChordCheckbox = React.createClass({
   },
   getInitialState: function () {
     return {
-      id: newId()
+      id: newId(),
+      tooltip: QA.CHORD_GROUPS[this.props.index].join(', ')
     }
   },
   handleChange: function (e) {
@@ -44,12 +46,13 @@ var Settings = React.createClass({
     handleCheckboxClick: React.PropTypes.func.isRequired,
     showSettings: React.PropTypes.func.isRequired,
     settingsClass: React.PropTypes.string.isRequired,
-    checkboxVals: React.PropTypes.array.isRequired
+    checkboxVals: React.PropTypes.array.isRequired,
+    selectedChords: React.PropTypes.string.isRequired
   },
   createCheckbox: function (group, index) {
     let text
     if (index === QA.CHORD_GROUPS.length - 1) {
-      text = 'All Chords'
+      text = 'All'
     }
     return (
       <ChordCheckbox
@@ -68,6 +71,10 @@ var Settings = React.createClass({
         <div className="settingsContent">
           <div className="groupSelect">
             {QA.CHORD_GROUPS.map(this.createCheckbox)}
+          </div>
+          <div className="selectedChords">
+            <span className="selectedHeading">Selected Chords: </span>
+            {this.props.selectedChords}
           </div>
         </div>
       </div>

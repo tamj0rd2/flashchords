@@ -19,7 +19,7 @@ $settings-height: $free-space + $card-half-height;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 3em;
+    @include responsive-font($mainFontSize, $minFontSize, $maxFontSize);
     height: $free-space;
 
     background: $col1;
@@ -31,21 +31,36 @@ $settings-height: $free-space + $card-half-height;
   }
 
   .settingsContent {
+    $padding: 3vmax;
     height: calc(100% - #{$free-space});
+    color: $white;
+    box-sizing: border-box;
+    padding: $padding;
+    font-size: $smallerFont;
 
     .groupSelect {
-      height: 100%;
-      box-sizing: border-box;
-      padding: 4vmax;
-
+      height: 50%;
       display: flex;
       flex-flow: row wrap;
       justify-content: space-between;
       align-content: space-around;
-      color: $white;
+      padding-bottom: $padding;
+      box-sizing: inherit;
 
       .chordGroup {
         width: calc(100% * (1/4) - 10px - 1px);
+        white-space: nowrap;
+      }
+    }
+
+    .selectedChords {
+      height: 50%;
+      font-size: $smallerFont - 1;
+      overflow-y: auto;
+
+      .selectedHeading {
+        font-size: $smallerFont;
+        font-weight: bold;
       }
     }
   }
